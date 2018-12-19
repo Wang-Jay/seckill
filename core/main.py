@@ -52,17 +52,18 @@ def completeLogin(mainUrl):
     print(result.headers)
 
 
-openLogin()
+if __name__ == '__main__':
+    openLogin()
 
-v1, v2 = requestUtils.getKsTsAndCallBack()
-print('https:' + getQrCodeUrl(v1, v2))
-
-while 1 > 0:
     v1, v2 = requestUtils.getKsTsAndCallBack()
-    flag, url = getQrStatus(v1, v2, requestUtils.getIsg())
-    if flag == 1:
-        completeLogin(url)
-        break
-    time.sleep(1.5)
+    print('https:' + getQrCodeUrl(v1, v2))
 
-# completeLogin("https://login.taobao.com/member/loginByIm.do?uid=cntaobaoqq292796135&token=3e9aff3deee4a16f8eac821539522b78&time=1545038494200&asker=qrcodelogin&ask_version=1.0.0&defaulturl=https%3A%2F%2Fwww.taobao.com&webpas=7d56bbc871bc64b79985d82f97eeda951508713642")
+    while 1 > 0:
+        v1, v2 = requestUtils.getKsTsAndCallBack()
+        flag, url = getQrStatus(v1, v2, requestUtils.getIsg())
+        if flag == 1:
+            completeLogin(url)
+            break
+        time.sleep(1.5)
+
+    # completeLogin("https://login.taobao.com/member/loginByIm.do?uid=cntaobaoqq292796135&token=3e9aff3deee4a16f8eac821539522b78&time=1545038494200&asker=qrcodelogin&ask_version=1.0.0&defaulturl=https%3A%2F%2Fwww.taobao.com&webpas=7d56bbc871bc64b79985d82f97eeda951508713642")
