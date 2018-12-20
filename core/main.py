@@ -2,26 +2,20 @@
 import json
 import time
 import requests
-from requests.cookies import RequestsCookieJar
 
 # ksTs
 from core.utils import cookieUtils, requestUtils, constant
 
-cookie_jar = RequestsCookieJar()
-
 
 # 初始化页面，获取cookie
 def openLogin():
-    global cookie_jar
     result = requests.get(constant.loginUrl)
-    cookie_jar = result.cookies
-    cookieUtils.saveCookie(cookie_jar)
-    print(result)
+    cookieUtils.saveLoginCookie(result.cookies)
 
 
 # 获取二维码链接
 def getQrCodeUrl(ks, call):
-    result = requests.get(constant.qrCodeUrl % (ks, call), headers=constant.headers, cookies=cookie_jar)
+    result = requests.get(constant.qrCodeUrl % (ks, call), headers=constant.headers, cookies=cookieUtils.getLoginCookie())
     qrJson = json.loads(requestUtils.extractJson(result.text, call))
     requestUtils.saveQrLgToken(qrJson['lgToken'])
     return qrJson['url']
@@ -29,15 +23,12 @@ def getQrCodeUrl(ks, call):
 
 # 获取二维码状态
 def getQrStatus(ks, call, isg):
-    global cookie_jar
-    if len(cookie_jar) == 0:
-        cookieUtils.getCookie(cookie_jar)
-    cookie_jar.set('isg', isg, domain='.taobao.com')
-    result = requests.get(constant.qrLoginUrl % (requestUtils.getQrLgToken(), ks, call), headers=constant.headers, cookies=cookie_jar)
+    cookie = cookieUtils.getLoginCookie()
+    cookie.set('isg', isg, domain='.taobao.com')
+    result = requests.get(constant.qrLoginUrl % (requestUtils.getQrLgToken(), ks, call), headers=constant.headers, cookies=cookie)
     print(result.text)
     obj = json.loads(requestUtils.extractJson(result.text, call))
     code = obj['code']
-    print(result.cookies)
     if '10006' == code:
         return 1, obj['url']
     return 0, 0
@@ -45,10 +36,9 @@ def getQrStatus(ks, call, isg):
 
 # 完成登录
 def completeLogin(mainUrl):
-    result = requests.get(mainUrl, headers=constant.mainHeaders, cookies=cookie_jar, allow_redirects=False)
+    result = requests.get(mainUrl+'&umid_token=C1545314282797387373999551545314282797854', headers=constant.mainHeaders, cookies=cookieUtils.getLoginCookie(), allow_redirects=False)
+    cookieUtils.saveMainCookie(result.cookies)
     print(result)
-    print(result.cookies)
-    print(result.text)
     print(result.headers)
 
 
@@ -64,6 +54,4 @@ if __name__ == '__main__':
         if flag == 1:
             completeLogin(url)
             break
-        time.sleep(1.5)
-
-    # completeLogin("https://login.taobao.com/member/loginByIm.do?uid=cntaobaoqq292796135&token=3e9aff3deee4a16f8eac821539522b78&time=1545038494200&asker=qrcodelogin&ask_version=1.0.0&defaulturl=https%3A%2F%2Fwww.taobao.com&webpas=7d56bbc871bc64b79985d82f97eeda951508713642")
+        time.sleep(2)

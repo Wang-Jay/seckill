@@ -3,7 +3,7 @@
 loginUrl = 'https://login.taobao.com/member/login.jhtml'
 
 qrCodeUrl = 'https://qrlogin.taobao.com/qrcodelogin/generateQRCode4Login.do?from=tb&appkey=00000000&_ksTS=%s&callback' \
-            '=jsonp%s'
+            '=jsonp%s&umid_token=C1545314282797387373999551545314282797854'
 
 qrLoginUrl = 'https://qrlogin.taobao.com/qrcodelogin/qrcodeLoginCheck.do?lgToken=%s&_ksTS=%s&callback=jsonp%s'
 
@@ -31,3 +31,7 @@ mainHeaders = {
     'Upgrade-Insecure-Requests': '1',
     'TE': 'Trailers'
 }
+
+domain = '.taobao.com'
+
+loginDomain = '.login.taobao.com'
