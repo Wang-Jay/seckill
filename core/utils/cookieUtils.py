@@ -1,19 +1,19 @@
 # -*- coding:utf-8 -*-
-from core.utils import  constant
+from core.utils import constant, fileUtils
 from requests.cookies import RequestsCookieJar
 
 
 def saveLoginCookie(cookie):
-    file = open('../db/loginCookie', 'w')
+    cookieStr = ''
     for key in cookie.keys():
         value = cookie.get(key)
-        file.write(key + '=' + value + ';')
+        cookieStr += key + '=' + value + ';'
+    fileUtils.saveDbFile('loginCookie', cookieStr)
 
 
 def getLoginCookie():
     cookie = RequestsCookieJar()
-    file = open('../db/loginCookie', 'r')
-    for line in file.read().split(';'):
+    for line in fileUtils.readDbFile('loginCookie').split(';'):
         if line.strip() != '':
             key, value = line.strip().split('=', 1)
             cookie.set(key, value, domain=constant.domain)
@@ -21,16 +21,16 @@ def getLoginCookie():
 
 
 def saveMainCookie(cookie):
-    file = open('../db/mainCookie', 'w')
+    cookieStr = ''
     for key in cookie.keys():
         value = cookie.get(key)
-        file.write(key + '=' + value + ';')
+        cookieStr += key + '=' + value + ';'
+    fileUtils.saveDbFile('mainCookie', cookieStr)
 
 
 def getMainCookie():
     cookie = RequestsCookieJar()
-    file = open('../db/mainCookie', 'r')
-    for line in file.read().split(';'):
+    for line in fileUtils.readDbFile('mainCookie').split(';'):
         if line.strip() != '':
             key, value = line.strip().split('=', 1)
             if key == 'lc' or key == 'lid' or key == 'log':

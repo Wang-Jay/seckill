@@ -2,6 +2,7 @@
 import time
 import uuid
 import random
+from core.utils import fileUtils
 
 index = 888
 
@@ -22,13 +23,11 @@ def lgToken():
 
 
 def getQrLgToken():
-    file = open('../db/qrLgToken', 'r')
-    return file.read()
+    return fileUtils.readDbFile('qrLgToken')
 
 
 def saveQrLgToken(token):
-    file = open('../db/qrLgToken', 'w')
-    file.write(token)
+    fileUtils.saveDbFile('qrLgToken', token)
 
 
 def getIsg():
@@ -38,3 +37,26 @@ def getIsg():
         i += 1
         isg += f[int(random.random() * len(f))]
     return isg
+
+
+def generateUmidToken():
+    ts = str(round(time.time() * 1000))
+    token = 'C' + ts + '9' + getRandomIntForNumber(10) + ts + getRandomIntForNumber(3)
+    fileUtils.saveDbFile('umidToken', token)
+    return token
+
+
+def getUmidToken():
+    return fileUtils.readDbFile('umidToken')
+
+
+def getRandomIntForNumber(number):
+    r = ''
+    while number > 0:
+        r += str(random.choice('0123456789'))
+        number -= 1
+    return r
+
+
+if __name__ == '__main__':
+    print(generateUmidToken())

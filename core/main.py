@@ -15,7 +15,7 @@ def openLogin():
 
 # 获取二维码链接
 def getQrCodeUrl(ks, call):
-    result = requests.get(constant.qrCodeUrl % (ks, call), headers=constant.headers, cookies=cookieUtils.getLoginCookie())
+    result = requests.get(constant.qrCodeUrl % (ks, call, requestUtils.generateUmidToken()), headers=constant.headers, cookies=cookieUtils.getLoginCookie())
     qrJson = json.loads(requestUtils.extractJson(result.text, call))
     requestUtils.saveQrLgToken(qrJson['lgToken'])
     return qrJson['url']
@@ -36,7 +36,7 @@ def getQrStatus(ks, call, isg):
 
 # 完成登录
 def completeLogin(mainUrl):
-    result = requests.get(mainUrl+'&umid_token=C1545314282797387373999551545314282797854', headers=constant.mainHeaders, cookies=cookieUtils.getLoginCookie(), allow_redirects=False)
+    result = requests.get(mainUrl + '&umid_token=' + requestUtils.getUmidToken(), headers=constant.mainHeaders, cookies=cookieUtils.getLoginCookie(), allow_redirects=False)
     cookieUtils.saveMainCookie(result.cookies)
     print(result)
     print(result.headers)
