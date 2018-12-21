@@ -2,8 +2,6 @@
 import json
 import time
 import requests
-
-# ksTs
 from core.utils import cookieUtils, requestUtils, constant
 
 
@@ -15,7 +13,7 @@ def openLogin():
 
 # 获取二维码链接
 def getQrCodeUrl(ks, call):
-    result = requests.get(constant.qrCodeUrl % (ks, call, requestUtils.generateUmidToken()), headers=constant.headers, cookies=cookieUtils.getLoginCookie())
+    result = requests.get(constant.qrCodeUrl % (ks, call, requestUtils.generateUmidToken()), headers=constant.qrHeaders, cookies=cookieUtils.getLoginCookie())
     qrJson = json.loads(requestUtils.extractJson(result.text, call))
     requestUtils.saveQrLgToken(qrJson['lgToken'])
     return qrJson['url']
@@ -25,7 +23,7 @@ def getQrCodeUrl(ks, call):
 def getQrStatus(ks, call, isg):
     cookie = cookieUtils.getLoginCookie()
     cookie.set('isg', isg, domain='.taobao.com')
-    result = requests.get(constant.qrLoginUrl % (requestUtils.getQrLgToken(), ks, call), headers=constant.headers, cookies=cookie)
+    result = requests.get(constant.qrLoginUrl % (requestUtils.getQrLgToken(), ks, call), headers=constant.qrHeaders, cookies=cookie)
     print(result.text)
     obj = json.loads(requestUtils.extractJson(result.text, call))
     code = obj['code']
@@ -36,7 +34,7 @@ def getQrStatus(ks, call, isg):
 
 # 完成登录
 def completeLogin(mainUrl):
-    result = requests.get(mainUrl + '&umid_token=' + requestUtils.getUmidToken(), headers=constant.mainHeaders, cookies=cookieUtils.getLoginCookie(), allow_redirects=False)
+    result = requests.get(mainUrl + '&umid_token=' + requestUtils.getUmidToken(), headers=constant.loginHeaders, cookies=cookieUtils.getLoginCookie(), allow_redirects=False)
     cookieUtils.saveMainCookie(result.cookies)
     print(result)
     print(result.headers)
