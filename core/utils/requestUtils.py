@@ -14,8 +14,16 @@ def getKsTsAndCallBack():
     return str(ts) + '_' + str(index), index + 1
 
 
+def getTs():
+    return str(round(time.time() * 1000))
+
+
 def extractJson(text, call):
     return str(text)[18 + len(str(call)):-7]
+
+
+def extractDataJson(text, call):
+    return str(text)[len(str(call)):-1]
 
 
 def lgToken():

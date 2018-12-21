@@ -1,12 +1,19 @@
 # -*- coding:utf-8 -*-
 from copy import deepcopy
 
+mainUrl = 'https://www.taobao.com/'
+
 loginUrl = 'https://login.taobao.com/member/login.jhtml'
 
 qrCodeUrl = 'https://qrlogin.taobao.com/qrcodelogin/generateQRCode4Login.do?from=tb&appkey=00000000&_ksTS=%s&callback' \
             '=jsonp%s&umid_token=%s'
 
 qrLoginUrl = 'https://qrlogin.taobao.com/qrcodelogin/qrcodeLoginCheck.do?lgToken=%s&_ksTS=%s&callback=jsonp%s'
+
+vipUrl = 'https://vip.taobao.com/ajax/getGoldUser.do?_input_charset=utf-8&from=diaoding&_ksTS=%s&callback=jsonp%s'
+
+miniCartUrl = 'https://cart.taobao.com/trail_mini_cart.htm?callback=%s&t=%s'
+
 
 baseHeaders = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0',
@@ -27,6 +34,16 @@ loginHeaders.update({'Host': 'login.taobao.com', 'Referer': 'https://login.taoba
 mainHeaders = deepcopy(baseHeaders)
 mainHeaders.update({'Host': 'www.taobao.com', 'Referer': 'https://login.taobao.com/', 'Upgrade-Insecure-Requests': '1'})
 
+vipHeaders = deepcopy(baseHeaders)
+vipHeaders.update({'Accept': '*/*', 'Host': 'vip.taobao.com', 'Referer': 'https://www.taobao.com/'})
+
+cartHeaders = deepcopy(baseHeaders)
+cartHeaders.update({'Accept': '*/*', 'Host': 'cart.taobao.com', 'Referer': 'https://www.taobao.com/'})
+
+
 domain = '.taobao.com'
 
 loginDomain = '.login.taobao.com'
+
+
+cartCallback = 'MiniCart.setData'
