@@ -21,7 +21,7 @@ def getLoginCookie():
 
 
 def saveMainCookie(cookie):
-    cookieStr = ''
+    cookieStr = fileUtils.readDbFile('loginCookie')
     for key in cookie.keys():
         value = cookie.get(key)
         cookieStr += key + '=' + value + ';'
@@ -38,3 +38,12 @@ def getMainCookie():
             else:
                 cookie.set(key, value, domain=constant.domain)
     return cookie
+
+
+def getMainCookieByName(name):
+    for line in fileUtils.readDbFile('mainCookie').split(';'):
+        if line.strip() != '':
+            key, value = line.strip().split('=', 1)
+            if key == name:
+                return value
+    return ''

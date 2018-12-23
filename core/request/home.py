@@ -7,7 +7,7 @@ from core.utils import cookieUtils, requestUtils, constant
 # 初始化首页
 def openMain():
     result = requests.get(constant.mainUrl, headers=constant.mainHeaders, cookies=cookieUtils.getMainCookie())
-    print(result.text)
+    print(result)
 
 
 # 获取当前登录状态

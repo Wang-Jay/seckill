@@ -14,6 +14,10 @@ vipUrl = 'https://vip.taobao.com/ajax/getGoldUser.do?_input_charset=utf-8&from=d
 
 miniCartUrl = 'https://cart.taobao.com/trail_mini_cart.htm?callback=%s&t=%s'
 
+itemUrl = 'https://detail.tmall.com/item.htm?id=%s&tbpm=3'
+
+orderUrl = 'https://buy.tmall.com/order/confirm_order.htm?x-itemid=%s&x-uid=%s'
+
 
 baseHeaders = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0',
@@ -40,8 +44,16 @@ vipHeaders.update({'Accept': '*/*', 'Host': 'vip.taobao.com', 'Referer': 'https:
 cartHeaders = deepcopy(baseHeaders)
 cartHeaders.update({'Accept': '*/*', 'Host': 'cart.taobao.com', 'Referer': 'https://www.taobao.com/'})
 
+itemHeaders = deepcopy(baseHeaders)
+itemHeaders.update({'Host': 'detail.tmall.com', 'Upgrade-Insecure-Requests': '1'})
+
+buyHeaders = deepcopy(baseHeaders)
+buyHeaders.update({'Host': 'buy.tmall.com', 'Upgrade-Insecure-Requests': '1', 'Referer': 'https://detail.tmall.com/item.htm?id=569351931533&ali_trackid=17_5c46812b8fa8eca890d369100c3a6a13&spm=875.7931836/B.2016006.d2&skuId=3816027606622', 'Content-Type': 'application/x-www-form-urlencoded'})
+
 
 domain = '.taobao.com'
+
+tmallDomain = '.tmall.com'
 
 loginDomain = '.login.taobao.com'
 
