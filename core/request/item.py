@@ -8,8 +8,8 @@ from core.utils import cookieUtils, requestUtils, constant
 
 # 初始化首页
 def getDetail(itemId):
-    # result = requests.get(constant.itemUrl % itemId, headers=constant.itemHeaders, cookies=cookieUtils.getMainCookie(), allow_redirects=False)
-    result = requests.get(constant.itemUrl % itemId, headers=constant.itemHeaders, allow_redirects=False)
+    result = requests.get(constant.itemUrl % itemId, headers=constant.itemHeaders, cookies=cookieUtils.getMainCookie(), allow_redirects=False)
+    # result = requests.get(constant.itemUrl % itemId, headers=constant.itemHeaders, allow_redirects=False)
     # print(result)
     # print(result.headers)
     joinData(result.text, itemId)
@@ -17,8 +17,8 @@ def getDetail(itemId):
 
 def confirmOrder(data):
     header = constant.buyHeaders
-    # header['Referer'] = header['Referer'] % data['item_id']
-    result = requests.post(constant.orderUrl % (data['item_id'], cookieUtils.getMainCookieByName('unb')), headers=header, cookies=cookie, allow_redirects=False)
+    header['Referer'] = header['Referer'] % data['item_id']
+    result = requests.post(constant.orderUrl % (data['item_id'], cookieUtils.getMainCookieByName('unb')), headers=header, cookies=cookieUtils.getMainCookie(), allow_redirects=False)
     print(result)
     print(result.headers)
     print(result.text)

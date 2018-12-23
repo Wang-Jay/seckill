@@ -48,7 +48,7 @@ itemHeaders = deepcopy(baseHeaders)
 itemHeaders.update({'Host': 'detail.tmall.com', 'Upgrade-Insecure-Requests': '1'})
 
 buyHeaders = deepcopy(baseHeaders)
-buyHeaders.update({'Host': 'buy.tmall.com', 'Upgrade-Insecure-Requests': '1', 'Referer': 'https://detail.tmall.com/item.htm?id=569351931533&ali_trackid=17_5c46812b8fa8eca890d369100c3a6a13&spm=875.7931836/B.2016006.d2&skuId=3816027606622', 'Content-Type': 'application/x-www-form-urlencoded'})
+buyHeaders.update({'Host': 'buy.tmall.com', 'Upgrade-Insecure-Requests': '1', 'Referer': 'https://detail.tmall.com/item.htm?id=%s', 'Content-Type': 'application/x-www-form-urlencoded'})
 
 
 domain = '.taobao.com'
